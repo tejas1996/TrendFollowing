@@ -29,11 +29,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.ta4j</groupId>
-			<artifactId>ta4j-core</artifactId>
-			<version>0.12</version>
-		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -55,8 +51,19 @@
             <artifactId>jfreechart</artifactId>
             <version>1.0.2</version>
         </dependency>
+		<dependency>
+			<groupId>org.theta4j</groupId>
+			<artifactId>theta4j</artifactId>
+			<version>0.5.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.ta4j</groupId>
+			<artifactId>ta4j-core</artifactId>
+			<version>0.12</version>
+		</dependency>
 
-    </dependencies>
+
+	</dependencies>
 
 	<build>
 		<plugins>
