@@ -1,6 +1,7 @@
 
 package com.example.TrendFollowing;
 
+import com.example.TrendFollowing.loaders.CsvTradesLoader;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -15,6 +16,8 @@ import org.jfree.data.xy.DefaultHighLowDataset;
 import org.jfree.data.xy.OHLCDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.ta4j.core.Bar;
 import org.ta4j.core.TimeSeries;
 import org.ta4j.core.indicators.helpers.ClosePriceIndicator;
@@ -25,7 +28,12 @@ import java.util.Date;
 /**
  * This class builds a traditional candlestick chart.
  */
+
+@Service
 public class CandlestickChart {
+
+    @Autowired
+    CsvTradesLoader csvTradesLoader;
 
     /**
      * Builds a JFreeChart OHLC dataset from a ta4j time series.
@@ -90,28 +98,21 @@ public class CandlestickChart {
     }
 
     public static void main(String[] args) {
-        /*
-          Getting time series
-         */
+
+//      Getting time series
         TimeSeries series = com.example.TrendFollowing.loaders.CsvTradesLoader.loadBitstampSeries();
 
-        /*
-          Creating the OHLC dataset
-         */
+//          Creating the OHLC dataset
         OHLCDataset ohlcDataset = createOHLCDataset(series);
 
-        /*
-          Creating the additional dataset
-         */
+//          Creating the additional dataset
         TimeSeriesCollection xyDataset = createAdditionalDataset(series);
 
-        /*
-          Creating the chart
-         */
+//          Creating the chart
         JFreeChart chart = ChartFactory.createCandlestickChart(
-                "Bitstamp BTC price",
+                "Bitstamp Minda price",
                 "Time",
-                "USD",
+                "Rupee",
                 ohlcDataset,
                 true);
         // Candlestick rendering
@@ -138,4 +139,46 @@ public class CandlestickChart {
          */
         displayChart(chart);
     }
+
+    public void displayClndleChart(TimeSeries timeSeries){
+
+        OHLCDataset ohlcDataset = createOHLCDataset(timeSeries);
+
+        TimeSeriesCollection xyDataset = createAdditionalDataset(timeSeries);
+
+        JFreeChart chart = ChartFactory.createCandlestickChart(
+                timeSeries.getName(),
+                "Time",
+                "Rupee",
+                ohlcDataset,
+                true);
+        // Candlestick rendering
+        CandlestickRenderer renderer = new CandlestickRenderer();
+        renderer.setAutoWidthMethod(CandlestickRenderer.WIDTHMETHOD_SMALLEST);
+        XYPlot plot = chart.getXYPlot();
+        plot.setRenderer(renderer);
+        // Additional dataset
+        int index = 1;
+        plot.setDataset(index, xyDataset);
+        plot.mapDatasetToRangeAxis(index, 0);
+        XYLineAndShapeRenderer renderer2 = new XYLineAndShapeRenderer(true, false);
+        renderer2.setSeriesPaint(index, Color.blue);
+        plot.setRenderer(index, renderer2);
+        // Misc
+        plot.setRangeGridlinePaint(Color.lightGray);
+        plot.setBackgroundPaint(Color.white);
+        NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();
+        numberAxis.setAutoRangeIncludesZero(false);
+        plot.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
+
+        /*
+          Displaying the chart
+         */
+        displayChart(chart);
+
+
+
+    }
+
+
 }

@@ -2,6 +2,7 @@
 package com.example.TrendFollowing.loaders;
 
 import com.opencsv.CSVReader;
+import org.springframework.stereotype.Service;
 import org.ta4j.core.BaseTimeSeries;
 import org.ta4j.core.TimeSeries;
 
@@ -19,6 +20,7 @@ import java.util.logging.Logger;
 /**
  * This class build a Ta4j time series from a CSV file containing bars.
  */
+@Service
 public class CsvBarsLoader {
 
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");

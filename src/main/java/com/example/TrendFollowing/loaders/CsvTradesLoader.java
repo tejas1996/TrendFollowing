@@ -24,6 +24,7 @@
 package com.example.TrendFollowing.loaders;
 
 import com.opencsv.CSVReader;
+import org.springframework.stereotype.Service;
 import org.ta4j.core.Bar;
 import org.ta4j.core.BaseBar;
 import org.ta4j.core.BaseTimeSeries;
@@ -45,6 +46,7 @@ import java.util.logging.Logger;
 /**
  * This class builds a Ta4j time series from a CSV file containing trades.
  */
+@Service
 public class CsvTradesLoader {
 
     /**
